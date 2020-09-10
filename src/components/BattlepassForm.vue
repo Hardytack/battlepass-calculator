@@ -17,18 +17,13 @@
         <label>End Date</label>
         <input type="date" v-model.trim="endDate" />
       </div>
-      <div class="input-group">
-        <input type="submit" value="Calculate" @click="calculateXp" />
-        <input type="submit" value="Save" @click="saveData" />
-        <input type="submit" value="Load" @click="getData" />
+      <div class="button-group">
+        <button @click="calculateXp">Calculate</button>
+        <button @click="saveData">Save</button>
+        <button @click="getData">Load</button>
+        <button @click="deleteData">Delete</button>
       </div>
     </form>
-    <button
-      class="testbutton"
-      @click="$emit('test-emit', { name, days: 27, xpDifference })"
-    >
-      Test
-    </button>
   </section>
 </template>
 
@@ -47,10 +42,24 @@ export default {
     xpDifference() {
       return this.totalXp - this.currentXp;
     },
+    daysLeft() {
+      const targetDate = new Date(this.endDate);
+      const todaysDate = new Date(Date.now());
+      const differenceTime = targetDate.getTime() - todaysDate.getTime();
+      const differenceDays = differenceTime / (1000 * 3600 * 24);
+      return Math.ceil(differenceDays);
+    },
   },
   methods: {
     calculateXp() {
-      console.log(`You need ${this.totalXp - this.currentXp}xp`);
+      if (!this.name || !this.endDate)
+        return alert("Please fill out all fields");
+      this.$emit("test-emit", {
+        name: this.name,
+        daysLeft: this.daysLeft,
+        xpDifference: this.xpDifference,
+        show: true,
+      });
     },
     saveData() {
       let data = {
@@ -60,6 +69,11 @@ export default {
         endDate: this.endDate,
       };
       localStorage.setItem("battlepass", JSON.stringify(data));
+      alert("Data has been saved");
+    },
+    deleteData() {
+      localStorage.removeItem("battlepass");
+      alert("Data has been removed");
     },
     getData() {
       let data = JSON.parse(localStorage.getItem("battlepass"));
@@ -69,6 +83,15 @@ export default {
       this.totalXp = data.totalXp;
       this.endDate = data.endDate;
     },
+  },
+  beforeMount() {
+    let data = JSON.parse(localStorage.getItem("battlepass"));
+    if (!data) return;
+    this.name = data.name;
+    this.currentXp = data.currentXp;
+    this.totalXp = data.totalXp;
+    this.endDate = data.endDate;
+    this.calculateXp();
   },
 };
 </script>
