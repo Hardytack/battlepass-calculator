@@ -1,18 +1,40 @@
+$lightGreen: #f1ffe6;
+
 .form-container {
   width: 100%;
   margin: 0 auto;
+  max-width: 750px;
   form {
     .input-group {
       display: grid;
-      grid-template-columns: 25% 75%;
+      grid-template-columns: 1fr;
       margin: 10px;
       grid-gap: 5px;
       label {
-        justify-self: end;
+        justify-self: start;
         align-self: center;
       }
       input {
-        width: 90%;
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        background: $lightGreen;
+      }
+    }
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      button {
+        border: none;
+        background: #bada55;
+        padding: 10px;
+        margin: 5px;
+        color: black;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 80%;
+        justify-self: center;
       }
     }
   }

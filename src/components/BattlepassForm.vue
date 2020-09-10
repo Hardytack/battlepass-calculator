@@ -7,11 +7,11 @@
       </div>
       <div class="input-group">
         <label>Current XP</label>
-        <input type="number" v-model.trim="currentXp" placeholder="123" />
+        <input type="number" v-model.trim="currentXp" placeholder="0" />
       </div>
       <div class="input-group">
         <label>Goal XP</label>
-        <input type="number" v-model.trim="totalXp" />
+        <input type="number" v-model.trim="totalXp" placeholder="35000" />
       </div>
       <div class="input-group">
         <label>End Date</label>
@@ -33,8 +33,8 @@ export default {
   data() {
     return {
       name: "",
-      currentXp: 0,
-      totalXp: 0,
+      currentXp: null,
+      totalXp: null,
       endDate: "",
     };
   },

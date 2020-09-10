@@ -1,5 +1,5 @@
 <template>
-  <section id="result-box" :class="{visible: !stats.show}">
+  <section id="result-box" :class="{ visible: !stats.show }">
     <h2 id="result-header">You have {{ stats.daysLeft }} days left</h2>
     <h3 id="result-subhead">You need {{ stats.xpDifference }}xp</h3>
     <h4 id="result-thirdhead">
@@ -16,6 +16,7 @@ export default {
 };
 </script>
 
+//
 <style lang="scss">
 .visible {
   display: none;

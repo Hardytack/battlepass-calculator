@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
     <Battlepass v-on:test-emit="handleEmit" />
     <ResultBox v-bind:stats="passData" />
   </div>
@@ -29,3 +28,6 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+</style>

@@ -1,24 +1,15 @@
-# battlepass-calculator
+# Battlepass Calculator
 
-## Project setup
-```
-npm install
-```
+A calculator to figure out an efficient way to complete a battlepass in a game of your choice. It displays the average amount of in-game XP you would need to complete it by the end date.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## How to use
 
-### Compiles and minifies for production
+Clone the project. Open it in the editor of your choce and firs run either 
 ```
-npm run build
+vue serve
 ```
-
-### Lints and fixes files
+to run on your localhost or
 ```
-npm run lint
+vue build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+to make a static version of the site
