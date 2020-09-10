@@ -12,10 +12,15 @@ export default {
   components: {
     Navbar,
   },
+  methods: {
+    handleEmit(e) {
+      console.log(e);
+    },
+  },
 };
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

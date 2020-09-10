@@ -1,0 +1,20 @@
+form {
+  border: 1px solid green;
+  .input-group {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    margin: 10px;
+    label {
+      justify-self: end;
+      margin-right: 5px;
+      align-self: center;
+    }
+    input {
+      width: 80%;
+      margin-left: 5px;
+    }
+  }
+  label {
+    color: red;
+  }
+}
