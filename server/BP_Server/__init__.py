@@ -27,4 +27,14 @@ def create_app(test_config=None):
     def hello():
         return "hello, app"
 
+    # Imports the db file and connects the functions
+    from . import db
+
+    db.init_app(app)
+
+    # Imports and registers various blueprints
+    from . import auth
+
+    app.register_blueprint(auth.bp)
+
     return app
