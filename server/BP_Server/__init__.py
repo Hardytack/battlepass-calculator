@@ -33,8 +33,9 @@ def create_app(test_config=None):
     db.init_app(app)
 
     # Imports and registers various blueprints
-    from . import auth
+    from . import auth, battlepass
 
     app.register_blueprint(auth.bp)
+    app.register_blueprint(battlepass.bp)
 
     return app

@@ -26,7 +26,7 @@ def generate_token(user_id):
     try:
         payload = {
             "exp": datetime.datetime.utcnow()
-            + datetime.timedelta(days=0, minutes=10, seconds=5),
+            + datetime.timedelta(days=10, minutes=10, seconds=5),
             "iat": datetime.datetime.utcnow(),
             "sub": user_id,
         }
@@ -56,14 +56,13 @@ def verify_user(user_request):
         auth_token = ""
     if auth_token:
         decoded_token = decode_token(auth_token)
-        print(decoded_token)
         if not isinstance(decoded_token, str):
             user = db.execute(
                 "SELECT * FROM users WHERE id = ?", (decoded_token,)
             ).fetchone()
             if user is not None:
-                return True
-    return False
+                return {"status": True, "username": user["username"]}
+    return {"status": False}
 
 
 @bp.route("/login", methods=["POST"])
