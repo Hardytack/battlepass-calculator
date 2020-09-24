@@ -61,7 +61,11 @@ def verify_user(user_request):
                 "SELECT * FROM users WHERE id = ?", (decoded_token,)
             ).fetchone()
             if user is not None:
-                return {"status": True, "username": user["username"]}
+                return {
+                    "status": True,
+                    "username": user["username"],
+                    "user_id": user["id"],
+                }
     return {"status": False}
 
 
@@ -135,6 +139,7 @@ def register():
                     "message": "user created!",
                     "auth_token": auth_token.decode(),
                     "username": user["username"],
+                    "user_id": user["id"],
                 }
             ),
             status=201,

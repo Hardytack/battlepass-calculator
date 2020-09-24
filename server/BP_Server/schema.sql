@@ -14,7 +14,7 @@ CREATE TABLE userPass (
     bpName TEXT NOT NULL,
     currentXP INTEGER NOT NULL DEFAULT 0,
     totalXP INTEGER NOT NULL,
-    endDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    endDate TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
