@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, jsonify
+from flask_cors import CORS
 import os
 
 
@@ -6,6 +7,7 @@ def create_app(test_config=None):
 
     # instance_relative_config connects the python app to the instance folder
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_mapping(
         SECRET_KEY="dev",
         DATABASE=os.path.join(app.instance_path, "bpdb.sqlite"),
@@ -25,7 +27,7 @@ def create_app(test_config=None):
 
     @app.route("/")
     def hello():
-        return "hello, app"
+        return jsonify({"message": "Hello, World"}), 200
 
     # Imports the db file and connects the functions
     from . import db
