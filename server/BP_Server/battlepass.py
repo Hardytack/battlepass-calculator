@@ -9,11 +9,6 @@ from BP_Server.db import get_db
 bp = Blueprint("battlepass", __name__, url_prefix="/bp")
 
 
-# Finishing the Add Route
-# - DELETE
-# -- Delete requested row
-
-
 @bp.route("/user-bp", methods=["GET", "POST", "PATCH", "DELETE"])
 def addRoute():
     # Verifies if user is authorized to access route
@@ -160,6 +155,27 @@ def addRoute():
 
         return jsonify({"message": "Updated Successfully"})
 
-    # Placeholder for Delete route
+    # DELETE Resources
     else:
-        return "Route not valid yet"
+        # Verifies user included an id
+        if request.args.get("bpid") is None:
+            return jsonify({"message": "Please include a Battlepass ID"}), 404
+        else:
+            # Verifies requested battlepass exists
+            requested_bp = db.execute(
+                "SELECT * FROM userPass WHERE id = ?", (request.args.get("bpid"),)
+            ).fetchone()
+            if requested_bp is None:
+                return jsonify({"message": "Battlepass does not exist"}), 404
+
+            # Verifies user owns requested battlepass
+            elif requested_bp["user_id"] != user_check["user_id"]:
+                return jsonify({"message": "Battlepass does not belong to user"}), 401
+
+            # Deletes battlepass and returns
+            else:
+                db.execute(
+                    "DELETE from userPass WHERE id = ?", (request.args.get("bpid"),)
+                )
+                db.commit()
+                return jsonify({"message": "Deleted Successfully"}), 200
