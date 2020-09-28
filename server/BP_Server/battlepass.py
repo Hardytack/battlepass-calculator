@@ -2,7 +2,7 @@ import functools, os, datetime
 
 from BP_Server.auth import verify_user
 
-from flask import Blueprint, request, Response, json, current_app
+from flask import Blueprint, request, Response, json, current_app, jsonify
 
 from BP_Server.db import get_db
 
@@ -10,8 +10,6 @@ bp = Blueprint("battlepass", __name__, url_prefix="/bp")
 
 
 # Finishing the Add Route
-# - PATCH
-# -- Update DB entry with new information
 # - DELETE
 # -- Delete requested row
 
@@ -31,7 +29,7 @@ def addRoute():
     db = get_db()
     data = request.get_json()
 
-    # Get Resources
+    # GET Resources
     if request.method == "GET":
 
         # Fetches all Battlepasses for user's id
@@ -119,6 +117,49 @@ def addRoute():
             mimetype="application/json",
         )
 
-    # Placeholder for PATCH and DELETE
+    # PATCH Resources
+    elif request.method == "PATCH":
+        if (
+            "id" not in data
+            or "name" not in data
+            or "currentXP" not in data
+            or "totalXP" not in data
+            or "endDate" not in data
+        ):
+            return Response(
+                response=json.dumps({"message": "Please include all fields"}),
+                status=404,
+                mimetype="application/json",
+            )
+
+        # Check if BP is owned by user
+        requested_bp = db.execute(
+            "SELECT * FROM userPass WHERE id = ?", (data["id"],)
+        ).fetchone()
+
+        if requested_bp["user_id"] != user_check["user_id"]:
+            print(requested_bp["id"])
+            print(user_check["user_id"])
+            return Response(
+                response=json.dumps({"message": "Not Authorized To Edit"}),
+                status=401,
+                mimetype="application/json",
+            )
+
+        db.execute(
+            "UPDATE userPass SET bpName = ?, currentXP = ?, totalXP = ?, endDate = ? WHERE id = ?",
+            (
+                data["name"],
+                data["currentXP"],
+                data["totalXP"],
+                data["endDate"],
+                data["id"],
+            ),
+        )
+        db.commit()
+
+        return jsonify({"message": "Updated Successfully"})
+
+    # Placeholder for Delete route
     else:
         return "Route not valid yet"
