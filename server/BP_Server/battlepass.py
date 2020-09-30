@@ -88,7 +88,10 @@ def addRoute():
         if name_check is not None:
             return Response(
                 response=json.dumps(
-                    {"message": "You already have a battlepass with this name"}
+                    {
+                        "message": "You already have a battlepass with this name",
+                        "success": False,
+                    }
                 ),
                 status=400,
                 mimetype="application/json",
@@ -107,7 +110,7 @@ def addRoute():
         db.commit()
 
         return Response(
-            response=json.dumps({"message": "Added Successfully"}),
+            response=json.dumps({"message": "Added Successfully", "success": True}),
             status=201,
             mimetype="application/json",
         )

@@ -80,9 +80,9 @@ def login():
     user = db.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
 
     if user is None:
-        error = {"message": "Username and/or Password are incorrect"}
+        error = {"message": "Username and/or Password are incorrect", "success": False}
     elif not check_password_hash(user["password"], password):
-        error = {"message": "Username and/or Password are incorrect"}
+        error = {"message": "Username and/or Password are incorrect", "success": False}
 
     if error is None:
         auth_token = generate_token(user["id"])
@@ -92,6 +92,7 @@ def login():
                     "message": "user logged in!",
                     "auth_token": auth_token.decode(),
                     "username": user["username"],
+                    "success": True,
                 }
             ),
             status=200,
@@ -110,6 +111,7 @@ def register():
     content = request.get_json()
     username = content["username"]
     password = content["password"]
+    email = content["email"]
     db = get_db()
     error = None
 
@@ -117,16 +119,23 @@ def register():
         error = "Username is required."
     elif not password:
         error = "Password is required."
+    elif not email:
+        error = "Email is required"
     elif (
         db.execute("SELECT id FROM users WHERE username = ?", (username,)).fetchone()
         is not None
     ):
-        error = {"message": f"User {username} is already registered."}
+        error = f"User {username} is already registered."
+    elif (
+        db.execute("SELECT id FROM users WHERE email = ?", (email,)).fetchone()
+        is not None
+    ):
+        error = f"Email {email} is already registered."
 
     if error is None:
         db.execute(
-            "INSERT INTO users (username, password) VALUES (?, ?)",
-            (username, generate_password_hash(password)),
+            "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+            (username, email, generate_password_hash(password)),
         )
         db.commit()
         user = db.execute(
@@ -140,6 +149,7 @@ def register():
                     "auth_token": auth_token.decode(),
                     "username": user["username"],
                     "user_id": user["id"],
+                    "success": True,
                 }
             ),
             status=201,
@@ -148,7 +158,9 @@ def register():
         return my_response
     else:
         my_response = Response(
-            response=json.dumps(error), status=500, mimetype="application/json"
+            response=json.dumps({"message": error, "success": False}),
+            status=500,
+            mimetype="application/json",
         )
         return my_response
 

@@ -10,20 +10,26 @@
 
 <script>
 import Navbar from "./components/Navbar.vue";
+import { mapActions } from "vuex";
 export default {
   name: "App",
   components: {
     Navbar,
   },
   methods: {
+    ...mapActions(["signIn"]),
     handleEmit(e) {
       console.log(e);
     },
   },
   created() {
-    fetch("http://127.0.0.1:5000/")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    if (localStorage.getItem("username") && localStorage.getItem("token")) {
+      console.log("Already signed in");
+      this.signIn({
+        username: localStorage.getItem("username"),
+        token: localStorage.getItem("token"),
+      });
+    }
   },
 };
 </script>

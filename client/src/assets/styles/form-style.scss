@@ -24,18 +24,34 @@ $lightGreen: #f1ffe6;
     .button-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      button {
-        border: none;
-        background: #bada55;
-        padding: 10px;
-        margin: 5px;
-        color: black;
-        border-radius: 10px;
-        font-weight: bold;
-        cursor: pointer;
-        width: 80%;
-        justify-self: center;
-      }
+    }
+    .single-button-group {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+    button {
+      border: none;
+      background: #bada55;
+      padding: 10px;
+      margin: 5px;
+      color: black;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 80%;
+      justify-self: center;
     }
   }
+  .switchPageLink {
+    padding-top: 10px;
+    a {
+      color: $lightGreen;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+}
+.errorMessage {
+  color: red;
 }

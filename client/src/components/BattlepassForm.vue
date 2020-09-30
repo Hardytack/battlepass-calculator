@@ -17,17 +17,21 @@
         <label>End Date</label>
         <input type="date" v-model.trim="endDate" />
       </div>
-      <div class="button-group">
+      <div class="button-group" v-if="!username">
         <button @click="calculateXp">Calculate</button>
-        <button @click="saveData">Save</button>
-        <button @click="getData">Load</button>
-        <button @click="deleteData">Delete</button>
+        <router-link to="/login"> <button>Login to Save!</button></router-link>
       </div>
+      <div class="button-group" v-else>
+        <button @click="calculateXp">Calculate</button>
+        <button @click="saveData" :disabled="disabledButton">Save</button>
+      </div>
+      <p class="errorMessage">{{ errorMessage }}</p>
     </form>
   </section>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "PassForm",
   data() {
@@ -36,9 +40,12 @@ export default {
       currentXp: null,
       totalXp: null,
       endDate: "",
+      errorMessage: "",
+      disabledButton: false,
     };
   },
   computed: {
+    ...mapGetters(["username", "token"]),
     xpDifference() {
       return this.totalXp - this.currentXp;
     },
@@ -52,8 +59,9 @@ export default {
   },
   methods: {
     calculateXp() {
-      if (!this.name || !this.endDate)
-        return alert("Please fill out all fields");
+      this.errorMessage = "";
+      if (!this.name || !this.endDate || !this.currentXp || !this.totalXp)
+        return (this.errorMessage = "Please fill out all fields");
       this.$emit("test-emit", {
         name: this.name,
         daysLeft: this.daysLeft,
@@ -61,37 +69,42 @@ export default {
         show: true,
       });
     },
-    saveData() {
-      let data = {
-        name: this.name,
-        currentXp: this.currentXp,
-        totalXp: this.totalXp,
-        endDate: this.endDate,
-      };
-      localStorage.setItem("battlepass", JSON.stringify(data));
-      alert("Data has been saved");
+    async saveData() {
+      this.errorMessage = "";
+      if (!this.name || !this.currentXp || !this.totalXp || !this.endDate) {
+        return (this.errorMessage = "Please fill out all fields");
+      }
+      await fetch("http://127.0.0.1:5000/bp/user-bp", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${this.token}`,
+        },
+        body: JSON.stringify({
+          name: this.name,
+          currentXP: this.currentXp,
+          totalXP: this.totalXp,
+          endDate: this.endDate,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.success) {
+            this.errorMessage = data.message;
+          } else {
+            alert(data.message);
+          }
+        });
     },
     deleteData() {
-      localStorage.removeItem("battlepass");
-      alert("Data has been removed");
+      alert("Coming Soon");
     },
     getData() {
-      let data = JSON.parse(localStorage.getItem("battlepass"));
-      if (!data) return alert("No data has been saved");
-      this.name = data.name;
-      this.currentXp = data.currentXp;
-      this.totalXp = data.totalXp;
-      this.endDate = data.endDate;
+      alert("Coming Soon");
     },
   },
   beforeMount() {
-    let data = JSON.parse(localStorage.getItem("battlepass"));
-    if (!data) return;
-    this.name = data.name;
-    this.currentXp = data.currentXp;
-    this.totalXp = data.totalXp;
-    this.endDate = data.endDate;
-    this.calculateXp();
+    console.log("Coming Soon");
   },
 };
 </script>
