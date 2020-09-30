@@ -24,7 +24,6 @@ export default {
   },
   created() {
     if (localStorage.getItem("username") && localStorage.getItem("token")) {
-      console.log("Already signed in");
       this.signIn({
         username: localStorage.getItem("username"),
         token: localStorage.getItem("token"),

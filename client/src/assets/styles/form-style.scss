@@ -30,6 +30,9 @@ $lightGreen: #f1ffe6;
       grid-template-columns: 1fr;
       justify-items: center;
     }
+    a {
+      width: 100%;
+    }
     button {
       border: none;
       background: #bada55;
@@ -54,4 +57,15 @@ $lightGreen: #f1ffe6;
 }
 .errorMessage {
   color: red;
+}
+
+.user-passes {
+  list-style-type: none;
+  li {
+    padding: 10px;
+    a {
+      text-decoration: none;
+      color: white;
+    }
+  }
 }

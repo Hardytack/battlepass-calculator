@@ -25,6 +25,13 @@
         <button @click="calculateXp">Calculate</button>
         <button @click="saveData" :disabled="disabledButton">Save</button>
       </div>
+      <div class="single-button-group" v-if="username">
+        <router-link to="/my-profile"
+          ><button>
+            Load A Saved Pass
+          </button>
+        </router-link>
+      </div>
       <p class="errorMessage">{{ errorMessage }}</p>
     </form>
   </section>
@@ -34,9 +41,15 @@
 import { mapGetters } from "vuex";
 export default {
   name: "PassForm",
+  props: {
+    name: {
+      type: String,
+      default: "Lol",
+    },
+  },
   data() {
     return {
-      name: "",
+      // name: ""+,
       currentXp: null,
       totalXp: null,
       endDate: "",
@@ -99,12 +112,6 @@ export default {
     deleteData() {
       alert("Coming Soon");
     },
-    getData() {
-      alert("Coming Soon");
-    },
-  },
-  beforeMount() {
-    console.log("Coming Soon");
   },
 };
 </script>

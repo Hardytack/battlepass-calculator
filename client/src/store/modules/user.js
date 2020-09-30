@@ -12,7 +12,6 @@ const getters = {
 
 const actions = {
   signIn({ commit }, payload) {
-    console.log(arguments);
     commit("updateLoggedIn", true);
     commit("setUsername", payload.username);
     commit("setToken", payload.token);

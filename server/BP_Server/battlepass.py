@@ -40,7 +40,7 @@ def addRoute():
 
             # Returns response object
             return Response(
-                response=json.dumps({"data": passes_list}),
+                response=json.dumps({"passes": passes_list}),
                 status=200,
                 mimetype="application/json",
             )
@@ -52,7 +52,7 @@ def addRoute():
             ).fetchone()
             if my_pass is not None:
                 return Response(
-                    response=json.dumps({"data": list(my_pass)}),
+                    response=json.dumps({"passes": list(my_pass)}),
                     status=200,
                     mimetype="application/json",
                 )

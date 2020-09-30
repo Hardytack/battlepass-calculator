@@ -50,13 +50,16 @@ const routes = [
       import(/* webpackChunkName: "myProfile" */ "../views/MyProfile.vue"),
     beforeEnter: (to, from, next) => {
       if (store.getters.loggedIn) {
-        console.log("allowed");
         next();
       } else {
-        console.log("not authorized");
         next({ path: "/" });
       }
     },
+  },
+  {
+    path: "/edit-pass/:id",
+    name: "EditPass",
+    component: () => import("../views/EditPass.vue"),
   },
   // 404 - Catch All Page
   {
