@@ -23,6 +23,7 @@ export default {
     },
   },
   created() {
+    console.log(process.env.VUE_APP_URL);
     if (localStorage.getItem("username") && localStorage.getItem("token")) {
       this.signIn({
         username: localStorage.getItem("username"),
