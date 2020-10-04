@@ -125,7 +125,7 @@ def addRoute():
             or "endDate" not in data
         ):
             return Response(
-                response=json.dumps({"message": "Please include all fields"}),
+                response=json.dumps({"message": "Please include all fields", "success": False}),
                 status=404,
                 mimetype="application/json",
             )
@@ -139,7 +139,7 @@ def addRoute():
             print(requested_bp["id"])
             print(user_check["user_id"])
             return Response(
-                response=json.dumps({"message": "Not Authorized To Edit"}),
+                response=json.dumps({"message": "Not Authorized To Edit", "success": False}),
                 status=401,
                 mimetype="application/json",
             )
@@ -156,7 +156,7 @@ def addRoute():
         )
         db.commit()
 
-        return jsonify({"message": "Updated Successfully"})
+        return jsonify({"message": "Updated Successfully", "success": True})
 
     # DELETE Resources
     else:

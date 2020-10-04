@@ -35,7 +35,7 @@ export default {
     ...mapActions(["signIn"]),
     async login() {
       this.disableButton = true;
-      await fetch(`http://127.0.0.1:5000/auth/login`, {
+      await fetch(`${process.env.VUE_APP_URL}/auth/login`, {
         method: "POST",
         headers: {
           "content-type": "application/json",

@@ -3,19 +3,23 @@
     <form @submit.prevent>
       <div class="input-group">
         <label>Name</label>
-        <input type="text" v-model.trim="name" placeholder="Battlepass Name" />
+        <input
+          type="text"
+          v-model.trim="dataName"
+          placeholder="Battlepass Name"
+        />
       </div>
       <div class="input-group">
         <label>Current XP</label>
-        <input type="number" v-model.trim="currentXp" placeholder="0" />
+        <input type="number" v-model.trim="dataCurrentXp" placeholder="0" />
       </div>
       <div class="input-group">
         <label>Goal XP</label>
-        <input type="number" v-model.trim="totalXp" placeholder="35000" />
+        <input type="number" v-model.trim="dataTotalXp" placeholder="35000" />
       </div>
       <div class="input-group">
         <label>End Date</label>
-        <input type="date" v-model.trim="endDate" />
+        <input type="date" v-model.trim="dataEndDate" />
       </div>
       <div class="button-group" v-if="!username">
         <button @click="calculateXp">Calculate</button>
@@ -44,26 +48,61 @@ export default {
   props: {
     name: {
       type: String,
-      default: "Lol",
+      default: "",
+    },
+    currentXp: {
+      type: Number,
+      default: null,
+    },
+    totalXp: {
+      type: Number,
+      default: null,
+    },
+    endDate: {
+      type: String,
+      default: "",
+    },
+    editForm: {
+      type: Boolean,
+      default: false,
+    },
+    passID: {
+      type: String,
+      default: null,
     },
   },
   data() {
     return {
-      // name: ""+,
-      currentXp: null,
-      totalXp: null,
-      endDate: "",
+      dataName: this.name,
+      dataCurrentXp: this.currentXp,
+      dataTotalXp: this.totalXp,
+      dataEndDate: this.endDate,
       errorMessage: "",
       disabledButton: false,
     };
   },
+  watch: {
+    name() {
+      this.dataName = this.name;
+      this.dataEndDate = this.endDate;
+      this.dataCurrentXp = this.currentXp;
+      this.dataTotalXp = this.totalXp;
+    },
+    deep: true,
+  },
   computed: {
+    getName: {
+      get() {
+        return this.name;
+      },
+      set() {},
+    },
     ...mapGetters(["username", "token"]),
     xpDifference() {
-      return this.totalXp - this.currentXp;
+      return this.dataTotalXp - this.dataCurrentXp;
     },
     daysLeft() {
-      const targetDate = new Date(this.endDate);
+      const targetDate = new Date(this.dataEndDate);
       const todaysDate = new Date(Date.now());
       const differenceTime = targetDate.getTime() - todaysDate.getTime();
       const differenceDays = differenceTime / (1000 * 3600 * 24);
@@ -73,7 +112,12 @@ export default {
   methods: {
     calculateXp() {
       this.errorMessage = "";
-      if (!this.name || !this.endDate || !this.currentXp || !this.totalXp)
+      if (
+        !this.dataName ||
+        !this.dataCurrentXp ||
+        !this.dataTotalXp ||
+        !this.dataEndDate
+      )
         return (this.errorMessage = "Please fill out all fields");
       this.$emit("test-emit", {
         name: this.name,
@@ -82,32 +126,64 @@ export default {
         show: true,
       });
     },
+    // Add check for new or update
     async saveData() {
       this.errorMessage = "";
-      if (!this.name || !this.currentXp || !this.totalXp || !this.endDate) {
+      if (
+        !this.dataName ||
+        !this.dataCurrentXp ||
+        !this.dataTotalXp ||
+        !this.dataEndDate
+      ) {
         return (this.errorMessage = "Please fill out all fields");
       }
-      await fetch("http://127.0.0.1:5000/bp/user-bp", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${this.token}`,
-        },
-        body: JSON.stringify({
-          name: this.name,
-          currentXP: this.currentXp,
-          totalXP: this.totalXp,
-          endDate: this.endDate,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data.success) {
-            this.errorMessage = data.message;
-          } else {
-            alert(data.message);
-          }
-        });
+      // Submits an update request if pass already existed
+      if (this.editForm) {
+        await fetch(`${process.env.VUE_APP_URL}/bp/user-bp`, {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${this.token}`,
+          },
+          body: JSON.stringify({
+            name: this.dataName,
+            currentXP: this.dataCurrentXp,
+            totalXP: this.dataTotalXp,
+            endDate: this.dataEndDate,
+            id: this.passID,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.success) {
+              this.errorMessage = data.message;
+            } else {
+              alert(data.message);
+            }
+          });
+      } else {
+        await fetch(`${process.env.VUE_APP_URL}/bp/user-bp`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${this.token}`,
+          },
+          body: JSON.stringify({
+            name: this.dataName,
+            currentXP: this.dataCurrentXp,
+            totalXP: this.dataTotalXp,
+            endDate: this.dataEndDate,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.success) {
+              this.errorMessage = data.message;
+            } else {
+              alert(data.message);
+            }
+          });
+      }
     },
     deleteData() {
       alert("Coming Soon");

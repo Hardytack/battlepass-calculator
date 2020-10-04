@@ -53,7 +53,7 @@ export default {
         this.disableButton = false;
         return (this.errorMessage = "Passwords do not match");
       }
-      await fetch("http://127.0.0.1:5000/auth/register", {
+      await fetch(`${process.env.VUE_APP_URL}/auth/register`, {
         method: "POST",
         headers: {
           "content-type": "application/json",

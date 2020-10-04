@@ -38,7 +38,7 @@ export default {
     },
   },
   async created() {
-    await fetch("http://127.0.0.1:5000/bp/user-bp?type=all", {
+    await fetch(`${process.env.VUE_APP_URL}/bp/user-bp?type=all`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${this.token}`,
