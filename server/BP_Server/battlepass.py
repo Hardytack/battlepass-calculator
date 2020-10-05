@@ -162,18 +162,18 @@ def addRoute():
     else:
         # Verifies user included an id
         if request.args.get("bpid") is None:
-            return jsonify({"message": "Please include a Battlepass ID"}), 404
+            return jsonify({"message": "Please include a Battlepass ID", "success": False}), 404
         else:
             # Verifies requested battlepass exists
             requested_bp = db.execute(
                 "SELECT * FROM userPass WHERE id = ?", (request.args.get("bpid"),)
             ).fetchone()
             if requested_bp is None:
-                return jsonify({"message": "Battlepass does not exist"}), 404
+                return jsonify({"message": "Battlepass does not exist", "success": False}), 404
 
             # Verifies user owns requested battlepass
             elif requested_bp["user_id"] != user_check["user_id"]:
-                return jsonify({"message": "Battlepass does not belong to user"}), 401
+                return jsonify({"message": "Battlepass does not belong to user", "success": False}), 401
 
             # Deletes battlepass and returns
             else:
@@ -181,4 +181,4 @@ def addRoute():
                     "DELETE from userPass WHERE id = ?", (request.args.get("bpid"),)
                 )
                 db.commit()
-                return jsonify({"message": "Deleted Successfully"}), 200
+                return jsonify({"message": "Deleted Successfully", "success": True}), 200

@@ -4,13 +4,20 @@
     <button @click="logout">Sign Out</button>
     <section id="userPasses">
       <h2>You have {{ count }} saved passes</h2>
-      <ul class="user-passes">
-        <li v-for="pass in passes" :key="pass.id">
-          <router-link :to="{ path: `/edit-pass/${pass.id}` }">{{
-            pass.bpName
-          }}</router-link>
-        </li>
-      </ul>
+      <table class="user-passes">
+        <tbody>
+          <tr v-for="pass in passes" :key="pass.id">
+            <td>
+              <router-link :to="{ path: `/edit-pass/${pass.id}` }">{{
+                pass.bpName
+              }}</router-link>
+            </td>
+            <td class="deleteRow">
+              <button @click="() => deletePass(pass.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
   </section>
 </template>
@@ -35,6 +42,23 @@ export default {
       localStorage.removeItem("token");
       this.signOut();
       this.$router.push("/login");
+    },
+    async deletePass(id) {
+      await fetch(`${process.env.VUE_APP_URL}/bp/user-bp?bpid=${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (!data.success) {
+            alert(data.message);
+          } else {
+            this.$router.go(this.$router.currentRoute);
+          }
+        });
     },
   },
   async created() {

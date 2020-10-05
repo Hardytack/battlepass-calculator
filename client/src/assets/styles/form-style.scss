@@ -59,13 +59,36 @@ $lightGreen: #f1ffe6;
   color: red;
 }
 
+// .user-passes {
+//   list-style-type: none;
+//   li {
+//     padding: 10px;
+//     a {
+//       text-decoration: none;
+//       color: white;
+//     }
+//   }
+// }
+
 .user-passes {
-  list-style-type: none;
-  li {
-    padding: 10px;
+  width: 30%;
+  margin: 0 auto;
+  font-size: 1.5em;
+  tr {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    border: 1px solid white;
+    margin-bottom: 15px;
     a {
       text-decoration: none;
       color: white;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: tomato;
+      cursor: pointer;
     }
   }
 }

@@ -60,6 +60,13 @@ const routes = [
     path: "/edit-pass/:id",
     name: "EditPass",
     component: () => import("../views/EditPass.vue"),
+    beforeEnter: (to, from, next) => {
+      if (store.getters.loggedIn) {
+        next();
+      } else {
+        next({ path: "/" });
+      }
+    },
   },
   // 404 - Catch All Page
   {
@@ -71,7 +78,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  mode: "history",
+  mode: "",
   base: process.env.NODE_ENV === "production" ? "/vue-test-2/" : "",
 });
 

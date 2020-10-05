@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Edit Coming Soon for id {{ $route.params.id }}</h1>
+    <h1>Currently Editing {{ name }}</h1>
     <BattlepassForm
       :name="name"
       :currentXp="currentXp"

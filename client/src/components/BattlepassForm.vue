@@ -158,7 +158,7 @@ export default {
             if (!data.success) {
               this.errorMessage = data.message;
             } else {
-              alert(data.message);
+              this.$router.go(this.$router.currentRoute);
             }
           });
       } else {
@@ -180,7 +180,8 @@ export default {
             if (!data.success) {
               this.errorMessage = data.message;
             } else {
-              alert(data.message);
+              // this.$router.go(this.$router.currentRoute);
+              this.$router.push("/my-profile");
             }
           });
       }
