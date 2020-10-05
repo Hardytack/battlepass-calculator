@@ -24,18 +24,71 @@ $lightGreen: #f1ffe6;
     .button-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      button {
-        border: none;
-        background: #bada55;
-        padding: 10px;
-        margin: 5px;
-        color: black;
-        border-radius: 10px;
-        font-weight: bold;
-        cursor: pointer;
-        width: 80%;
-        justify-self: center;
-      }
+    }
+    .single-button-group {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+    a {
+      width: 100%;
+    }
+    button {
+      border: none;
+      background: #bada55;
+      padding: 10px;
+      margin: 5px;
+      color: black;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 80%;
+      justify-self: center;
+    }
+  }
+  .switchPageLink {
+    padding-top: 10px;
+    a {
+      color: $lightGreen;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+}
+.errorMessage {
+  color: red;
+}
+
+// .user-passes {
+//   list-style-type: none;
+//   li {
+//     padding: 10px;
+//     a {
+//       text-decoration: none;
+//       color: white;
+//     }
+//   }
+// }
+
+.user-passes {
+  width: 30%;
+  margin: 0 auto;
+  font-size: 1.5em;
+  tr {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    border: 1px solid white;
+    margin-bottom: 15px;
+    a {
+      text-decoration: none;
+      color: white;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: tomato;
+      cursor: pointer;
     }
   }
 }
