@@ -8,7 +8,7 @@
       :endDate="endDate"
       :editForm="true"
       :passID="$route.params.id"
-      v-on:test-emit="handleEmit"
+      v-on:calc-emit="handleEmit"
     />
     <ResultBox :stats="passData" />
   </section>

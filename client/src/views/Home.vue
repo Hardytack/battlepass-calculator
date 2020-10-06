@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Battlepass v-on:test-emit="handleEmit" />
+    <Battlepass v-on:calc-emit="handleEmit" />
     <ResultBox v-bind:stats="passData" />
   </div>
 </template>
@@ -29,5 +29,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

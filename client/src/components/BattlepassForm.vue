@@ -119,7 +119,7 @@ export default {
         !this.dataEndDate
       )
         return (this.errorMessage = "Please fill out all fields");
-      this.$emit("test-emit", {
+      this.$emit("calc-emit", {
         name: this.name,
         daysLeft: this.daysLeft,
         xpDifference: this.xpDifference,
