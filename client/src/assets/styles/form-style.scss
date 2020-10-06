@@ -1,4 +1,21 @@
 $lightGreen: #f1ffe6;
+$green: #bada55;
+.about {
+  p {
+    width: 50%;
+    margin: 0 auto;
+    font-size: 1.3em;
+    line-height: 1.5em;
+    margin-bottom: 10px;
+    a {
+      color: $green;
+      text-decoration: none;
+    }
+    @media only screen and (max-width: 700px) {
+      width: 90%;
+    }
+  }
+}
 
 .form-container {
   width: 100%;
@@ -59,17 +76,6 @@ $lightGreen: #f1ffe6;
   color: red;
 }
 
-// .user-passes {
-//   list-style-type: none;
-//   li {
-//     padding: 10px;
-//     a {
-//       text-decoration: none;
-//       color: white;
-//     }
-//   }
-// }
-
 .user-passes {
   width: 30%;
   margin: 0 auto;
@@ -77,7 +83,6 @@ $lightGreen: #f1ffe6;
   tr {
     display: grid;
     grid-template-columns: 75% 25%;
-    border: 1px solid white;
     margin-bottom: 15px;
     a {
       text-decoration: none;
@@ -90,5 +95,8 @@ $lightGreen: #f1ffe6;
       background-color: tomato;
       cursor: pointer;
     }
+  }
+  @media only screen and (max-width: 700px) {
+    width: 90%;
   }
 }

@@ -34,7 +34,10 @@ export default {
   methods: {
     ...mapActions(["signIn"]),
     async login() {
-      this.disableButton = true;
+      if (!this.username || !this.password) {
+        return (this.errorMessage = "Please fill out all fields");
+      }
+      // this.disableButton = true;
       await fetch(`${process.env.VUE_APP_URL}/auth/login`, {
         method: "POST",
         headers: {
@@ -45,7 +48,9 @@ export default {
           password: this.password,
         }),
       })
-        .then((res) => res.json())
+        .then((res) => {
+          return res.json();
+        })
         .then((data) => {
           if (!data.success) {
             this.disableButton = false;
