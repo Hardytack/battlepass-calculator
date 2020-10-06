@@ -44,7 +44,7 @@ export default {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          username: this.username,
+          username: this.username.toLowerCase(),
           password: this.password,
         }),
       })

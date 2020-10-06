@@ -59,8 +59,8 @@ export default {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          username: this.username,
-          email: this.email,
+          username: this.username.toLowerCase(),
+          email: this.email.toLowerCase(),
           password: this.password,
         }),
       })
