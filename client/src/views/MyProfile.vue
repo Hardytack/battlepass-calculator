@@ -70,7 +70,6 @@ export default {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.passes);
         if (data.passes.length < 1) {
           return;
         } else {
